@@ -1,15 +1,13 @@
-name: Pylint
+name: Pylint and Pytest
 
 on:
   push:
-    branches:
-      - main
-  pull_request_target:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build:
+  pylint-pytest:
     runs-on: ubuntu-latest
     continue-on-error: true
 
