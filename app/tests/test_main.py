@@ -4,7 +4,7 @@ from app.main import fetch_data, process_data
 
 @pytest.mark.asyncio
 async def test_fetch_data():
-    data == await fetch_data
+    data = await fetch_data()
     assert data == {"data": "sample data"}
 
 
