@@ -10,4 +10,4 @@ async def test_fetch_data():
 
 def test_process_data():
     result = process_data({"data": "sample data"})
-    assert result == "SAMPLE DATa"
+    assert result == "SAMPLE DATA"
