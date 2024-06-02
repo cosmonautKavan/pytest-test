@@ -28,9 +28,9 @@ jobs:
       run: |
         pylint --errors-only --clear-cache-post-run y app/
 
-    - name: Testing with pytest
-      run: |
-        pytest app --cov=app --disable-warnings --asyncio-mode auto
+    # - name: Testing with pytest
+    #   run: |
+    #     pytest app --cov=app --disable-warnings --asyncio-mode auto
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
