@@ -3,13 +3,9 @@ name: Build and Deploy Docker Image
 on:
   push:
     branches: [main]
-  workflow_run:
-    workflows: ["Code Quality Checks"]
-    types: [completed]
 
 jobs:
   build-and-push:
-    if: ${{ github.event_name == 'push' && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
