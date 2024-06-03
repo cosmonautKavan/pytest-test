@@ -12,6 +12,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Fetch Current Version
+        run: |
+          response=$(curl --location --request POST 'https://ap-south-1.aws.data.mongodb-api.com/app/data-pkwvozw/endpoint/data/v1/action/findOne' --header 'Content-Type: application/json' --header 'Access-Control-Request-Headers: *' --header 'api-key: ${{ secrets.MONGO_DATA_API_TOKEN }}' --data-raw '{
+            "collection":"releases",
+            "database":"deployment",
+            "dataSource":"Cluster0",
+            "filter": {
+                "project": "universe"
+            }
+          }')
+          echo $response
+          version=$(echo $response | jq -r '.document | "\(.x).\(.y).\(.z)"')
+          echo "version=$version" >> $GITHUB_ENV
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -27,4 +41,4 @@ jobs:
           context: .
           files: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/private-repo-test:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/private-repo-test:${{ env.version }}
