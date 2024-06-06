@@ -15,7 +15,7 @@ jobs:
 
       - name: Fetch Current Version from MongoDB
         run: |
-          response=$(curl --location --request POST '${{ env.MONGODB_DATA_API_ENDPOINT }}/findOne' --header 'Content-Type: application/json' --header 'Access-Control-Request-Headers: *' --header 'api-key: ${{ secrets.MONGO_DATA_API_TOKEN }}' --data-raw '{
+          response=$(curl --location --request POST '${{ vars.MONGODB_DATA_API_ENDPOINT }}/findOne' --header 'Content-Type: application/json' --header 'Access-Control-Request-Headers: *' --header 'api-key: ${{ secrets.MONGO_DATA_API_TOKEN }}' --data-raw '{
             "collection":"${{ secrets.MONGODB_COLLECTION }}",
             "database":"${{ secrets.MONGODB_DATABASE }}",
             "dataSource":"${{ secrets.MONGODB_DATA_SOURCE }}",
@@ -39,13 +39,13 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          files: ${{ env.DOCKER_FILEPATH || './Dockerfile' }}
+          files: ${{ vars.DOCKER_FILEPATH || './Dockerfile' }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMAGE_NAME }}:${{ env.version }}
 
       - name: Update Current Version in MongoDB
         run: |
-          response=$(curl --location --request POST '${{ env.MONGODB_DATA_API_ENDPOINT }}/updateOne' --header 'Content-Type: application/json' --header 'Access-Control-Request-Headers: *' --header 'api-key: ${{ secrets.MONGO_DATA_API_TOKEN }}' --data-raw '{
+          response=$(curl --location --request POST '${{ vars.MONGODB_DATA_API_ENDPOINT }}/updateOne' --header 'Content-Type: application/json' --header 'Access-Control-Request-Headers: *' --header 'api-key: ${{ secrets.MONGO_DATA_API_TOKEN }}' --data-raw '{
             "collection":"${{ secrets.MONGODB_COLLECTION }}",
             "database":"${{ secrets.MONGODB_DATABASE }}",
             "dataSource":"${{ secrets.MONGODB_DATA_SOURCE }}",
