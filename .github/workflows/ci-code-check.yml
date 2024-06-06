@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   code-quality-check:
@@ -24,6 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pylint pytest pytest-asyncio
+          pip install black
 
       - name: Analysing the code with Pylint
         run: |
@@ -32,3 +34,7 @@ jobs:
       - name: Testing with Pytest
         run: |
           pytest app --cov=app --disable-warnings --asyncio-mode auto
+      
+      - name: Format check with Black
+        run: |
+          black --check .
